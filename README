@@ -27,7 +27,7 @@ graphics (if you "make test").
 
 DEPENDENCIES
 
-This module requires these other modules:
+This module requires this other module:
 
 	GD
 

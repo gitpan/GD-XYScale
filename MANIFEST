@@ -10,3 +10,4 @@ t/04_curve.t
 t/05_circle.t
 t/06_pipes.t
 t/07_xpipes.t
+META.yml                                 Module meta-data (added by MakeMaker)

@@ -2,6 +2,19 @@ Revision history for Perl extension GD::XYScale.
 
 Time zone is GMT+2.
 
+1.2 Tue Dec 30 22:13:38 2003
+	=> Changed the module's code. Now, it does not modify 
+	   "GD::Image" namespace and it is now using its own 
+	   namespace "GD::XYScale". It was a bad idea anyway.
+	=> Updated the tests and Pod for this change.
+	=> Changed "draw_xyscale" to "draw" and "name_xyscale"
+	   to "name". Old names are also supported as aliases.
+	=> Added the new() method as the object constructor. It
+	   only needs one parameter: a GD::Image object.
+	=> Removed the %ORIGIN class variable. Its keys are 
+	   available as object tables. However "X" changed to "OX"
+	   and "Y" changed to "OY".
+
 1.1 Fri Nov 28 22:17:36 2003
 	=> Fixed: If oy==0, the x-scale name no longer goes
 	   too far from the x line.
