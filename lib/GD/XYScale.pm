@@ -2,7 +2,7 @@ package GD::XYScale;
 use strict;
 use vars qw[$VERSION];
 
-$VERSION = "1.0";
+$VERSION = "1.01";
 
 # The code actually starts here :)
 package GD::Image;
@@ -43,7 +43,7 @@ sub fixp2o {
    return $self->zs($Px) + $ox, $height - ($self->zs($Py) + $oy);
 }
 
-sub zoom_scale {shift->zoom_scale(@_)}
+sub zoom_scale {shift->zs(@_)}
 sub zs {
    my $self = shift;
    my $num  = shift;
@@ -191,7 +191,7 @@ result(s).
 If you call this method without parameters, it returns the 
 B<x> and B<y> values of the origin:
 
-   ($ox,$oy) = $self->origin;
+   ($ox,$oy) = $image->origin;
 
 This may be necessary. And, if you want to put I<something>
 on the scale (why do you use this module, if you dont't want to?)

@@ -2,5 +2,11 @@ Revision history for Perl extension GD::XYScale.
 
 Time zone is GMT+2.
 
+1.01 => Wed Nov 26 21:21:30 2003
+
+	=> zoom_scale() was calling itself, instead
+	   of zs()
+	=> Fixed Pod (there was a '$self' instead of $image)
+
 1.0 Wed Nov 26 12:05:09 2003
 	=> First release.
