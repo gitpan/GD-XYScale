@@ -2,8 +2,15 @@ Revision history for Perl extension GD::XYScale.
 
 Time zone is GMT+2.
 
-1.01 => Wed Nov 26 21:21:30 2003
+1.1 Fri Nov 28 22:17:36 2003
+	=> Fixed: If oy==0, the x-scale name no longer goes
+	   too far from the x line.
+	=> Added more control on the pipes, now you can 
+	   define their height, width and color, if you pass
+	   an array reference to the function. See "07_xpipes.t"
+	   test in the "./t" directory for an example.
 
+1.01 Wed Nov 26 21:21:30 2003
 	=> zoom_scale() was calling itself, instead
 	   of zs()
 	=> Fixed Pod (there was a '$self' instead of $image)

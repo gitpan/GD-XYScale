@@ -2,7 +2,7 @@ package GD::XYScale;
 use strict;
 use vars qw[$VERSION];
 
-$VERSION = "1.01";
+$VERSION = "1.1";
 
 # The code actually starts here :)
 package GD::Image;
@@ -72,7 +72,8 @@ sub origin {
 }
 
 sub draw_xyscale {
-   # $image->xyscale([LENGTH,COLOR])
+   # $image->xyscale(PIPE_LENGTH,SCALE_COLOR)
+   # $image->xyscale([PIPE_LENGTH,PIPE_WIDTH,PIPE_COLOR],SCALE_COLOR)
    # Draws a 2D (x-y) scale
    my $self    = shift;
    my $length  = shift;
@@ -81,18 +82,32 @@ sub draw_xyscale {
    my($ox,$oy) = $self->origin;
    my ($width,$height) = $self->getBounds;
    my $zoom    = $self->zoom_value || 1;
-   # create a x-y scale
-   my $f = 10 * $zoom;
-   my $last = $zoom >= 1 ? int($width/10)+1 : int($width/$zoom)+1;
+   my $pipe_width = 10;
+   my $pipe_color = $color;
 
-      $self->line(0            , $height-$oy          , $width       , $height-$oy            , $color); # x
-      $self->line($ox          , 0                    , $ox          , $height                , $color); # y
-      $self->line($_*$f        , $height-($oy+$length), $_*$f        , $height-($oy - $length), $color) for (1..$last); # x
-      $self->line($ox + $length, $_*$f                , $ox - $length, $_*$f                  , $color) for (1..$last); # y
+   # OK... We want an array ref with at least 3 elements in it
+   # for an extended interface to the pipes:
+   if (ref($length) and ref($length) eq 'ARRAY' and $#{$length} >= 2) {
+      $pipe_width = $length->[1] if $length->[1]; # override the default value "10"
+      $pipe_color = $length->[2] if $length->[2]; # override scale's base color
+      $length     = $length->[0] || 1; # Finally, convert arrayref to a numeric value :]
+   }
+
+   # Calculate the factor and last number of the pipes.
+   my $f    = $pipe_width * $zoom;
+   my $last = $zoom >= 1 ? int($width/$pipe_width)+1 : int($width/$zoom)+1;
+
+   # draw these things I call "pipes" :)
+   $self->line($_*$f        , $height-($oy+$length), $_*$f        , $height-($oy - $length), $pipe_color) for (1..$last); # x
+   $self->line($ox + $length, $_*$f                , $ox - $length, $_*$f                  , $pipe_color) for (1..$last); # y
+
+   # And finally, create a x-y scale
+   $self->line(0  , $height-$oy, $width, $height-$oy, $color); # x
+   $self->line($ox, 0          , $ox   , $height    , $color); # y
 }
 
 sub name_xyscale {
-   # $image->name_xyscale([UPWARDS,Y_NAME,X_NAME,COLOR,FONT,SHOW_ZOOM_STRING,ZOOM_STRING_COLOR]);
+   # $image->name_xyscale(UPWARDS,Y_NAME,X_NAME,COLOR,FONT,SHOW_ZOOM_STRING,ZOOM_STRING_COLOR);
    my $self     = shift;
    my $up       = shift || '';
    my $xname    = shift || 'x scale';
@@ -108,7 +123,7 @@ sub name_xyscale {
    my $half     = int($fw/3);
 
    # X scale name
-   $self->string($font, $width - (length($xname)+1)*$fw, $oy ? $height-($oy-$fh*.5) : $height - 4*$fh,$xname,$color);
+   $self->string($font, $width - (length($xname)+1)*$fw, $oy ? $height-($oy-$fh*.5) : $height - 2*$fh,$xname,$color);
 
    # Y scale name
    if ($up eq 'up') { 
@@ -210,6 +225,7 @@ L</"fix() METHODS"> part to get the correct point values.
 Draws the x-y scale with the scale pipes:
 
    $image->draw_xyscale(PIPE_HEIGHT,SCALE_COLOR);
+
    $image->draw_xyscale(1.5,$image->colorAllocate(255,200,185));
 
 The so called I<pipes>' mediation is 10 pixels for each (with 1:1 
@@ -218,6 +234,13 @@ I<pipes>, but you can set their heights. If you don't want to
 see them, just set the height to zero:
 
    $image->draw_xyscale(0,$image->colorAllocate(255,200,185));
+
+Also, there is an extended interface. If you pass an array reference
+as the first parameter, you can control all the behaviour of the pipes:
+
+   $image->xyscale([PIPE_LENGTH,PIPE_WIDTH,PIPE_COLOR],SCALE_COLOR);
+
+   $image->xyscale([800,50,$gray],$black);
 
 None of the parameters are mandatory.
 
@@ -308,10 +331,6 @@ computer.
 =head1 TODO
 
 =over 4
-
-=item *
-
-More control on the I<pipes>.
 
 =item *
 

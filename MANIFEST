@@ -9,3 +9,4 @@ t/03_line.t
 t/04_curve.t
 t/05_circle.t
 t/06_pipes.t
+t/07_xpipes.t
