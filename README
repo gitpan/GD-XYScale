@@ -1,0 +1,41 @@
+GD::XYScale
+===========
+
+Draws a 2D X-Y scale to use with scientific representations 
+of the formulas, curves, geometric data etc...
+
+Read the module's POD for documentation and examples.
+
+INSTALLATION
+
+To install this module type the following:
+
+   perl Makefile.PL
+   make
+   make test
+   make install
+
+or under Windows:
+
+   perl Makefile.PL
+   nmake
+   nmake test
+   nmake install
+
+See the resulting pictures from the tests for sample
+graphics (if you "make test"). 
+
+DEPENDENCIES
+
+This module requires these other modules:
+
+	GD
+
+Which is available on CPAN.
+
+COPYRIGHT AND LICENCE
+
+Copyright (C) 2003 Burak Gürsoy <burak@cpan.org>. All rights reserved.
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself. 

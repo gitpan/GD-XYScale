@@ -1,0 +1,11 @@
+lib/GD/XYScale.pm
+Changes
+Makefile.PL
+MANIFEST
+README
+t/01_use.t
+t/02_simple.t
+t/03_line.t
+t/04_curve.t
+t/05_circle.t
+t/06_pipes.t
